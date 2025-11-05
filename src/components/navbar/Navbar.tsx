@@ -7,8 +7,8 @@ export default function
   return (
     <div className='border-b border-gray-300 shadow-2xl h-14 flex items-center  '>
        <Container>
-         <div className='flex justify-between flex-row-reverse '>
-            <ul className='flex flex-row-reverse justify-between gap-4'>
+         <div className='flex justify-between flex-row '>
+            <ul className='flex flex-row justify-between gap-4'>
             <Link to={"/"}>
               <li>Home</li>
             </Link>

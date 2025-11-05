@@ -19,7 +19,7 @@ export default function Store() {
     <div>
       <Container>
         <h1 className='mb-10 text-right'> New Products</h1>
-        <div className='grid grid-cols-2 md:grid-cols-4 items-center gap-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
           {products.map((product) => (
             <Link key={product.id} to={`/productDet/${product.id}`}>
               <ProductItem product={product} />
