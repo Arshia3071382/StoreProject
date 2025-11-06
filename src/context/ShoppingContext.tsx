@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import { useContext } from "react";
+import CardItem from "../components/cradItem/CardItem";
 
 interface ShoppingCardProvider {
     children : React.ReactNode
@@ -15,6 +16,8 @@ interface shoppingCardContext {
     handleIncreaseProductQty : (id : number) => void
     handleDecreaseProductQty : (id : number) => void
     getProductQty : (id : number) => number ;
+    handleRemoveProduct : (id : number) => void
+    productQty : number
 }
 
 
@@ -71,10 +74,16 @@ export function ShppingCardProvider({children} :  ShoppingCardProvider){
     const getProductQty = (id : number) => {
         return cardItems.find(item => item.id == id)?.qty || 0
     }
+
+    const handleRemoveProduct = (id : number) => {
+        setCardItems(productItem => productItem.filter(item => item.id != id))
+    }
+
+    const productQty = cardItems.reduce(( totalQty , item) => totalQty + item.qty , 0)
           
     return(
 
-        <ShoppingCardContext.Provider value={{cardItems , handleIncreaseProductQty , handleDecreaseProductQty , getProductQty}}>
+        <ShoppingCardContext.Provider value={{cardItems , handleIncreaseProductQty , handleDecreaseProductQty , getProductQty , handleRemoveProduct , productQty}}>
             {children}
 
         </ShoppingCardContext.Provider>

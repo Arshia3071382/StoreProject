@@ -5,6 +5,7 @@ import Button from "../../components/button/Button";
 import type { TProducts } from "../../type/ProductType.ts";
 import axios from "axios";
 import { useShoppingCardContext } from "../../context/ShoppingContext.tsx";
+import deleteIcon from "./../../../public/image/delete_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40.png";
 
 function ProductDet() {
   const params = useParams<{ id: string }>();
@@ -15,6 +16,7 @@ function ProductDet() {
     cardItems,
     handleDecreaseProductQty,
     getProductQty,
+    handleRemoveProduct
   } = useShoppingCardContext();
 
   console.log(cardItems);
@@ -25,13 +27,13 @@ function ProductDet() {
     axios
       .get(`https://fakestoreapi.com/products/${params.id}`)
       .then((res) => setProduct(res.data))
-      .catch((err) => console.error("خطا در واکشی محصول:", err));
+      .catch((err) => console.error("  Error :", err));
   }, [params.id]);
 
   if (!product) {
     return (
       <Container>
-        <p className="text-center text-gray-500 mt-10">در حال بارگذاری...</p>
+        <p className="text-center text-gray-500 mt-10"> loading...</p>
       </Container>
     );
   }
@@ -57,13 +59,14 @@ function ProductDet() {
                 Add to Basket
               </Button>
             ) : (
-              <div className="flex flex-row gap-4 sm:flex-col justify-between items-center">
+          <>
+              <div className="flex  gap-4  justify-between items-center   ">
                 <Button
                   onClick={() =>
                     handleIncreaseProductQty(parseInt(params.id as string))
                   }
                   variant="primary"
-                  className="mt-2 w-full"
+                  className="mt-2 w-full px-56"
                 >
                   +
                 </Button>
@@ -73,11 +76,20 @@ function ProductDet() {
                     handleDecreaseProductQty(parseInt(params.id as string))
                   }
                   variant="danger"
-                  className="mt-2 w-full"
+                  className="mt-2 w-full px-56"
                 >
                   -
                 </Button>
               </div>
+              <div>
+                <Button className="w-full" variant="danger" onClick={() => handleRemoveProduct(parseInt(params.id as string))}>
+                   <img src={deleteIcon} alt="deleteItem" />
+                </Button>
+              </div>
+
+
+          </>
+
             )}
           </div>
 
