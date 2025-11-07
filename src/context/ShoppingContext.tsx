@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { useContext } from "react";
 import CardItem from "../components/cradItem/CardItem";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 interface ShoppingCardProvider {
     children : React.ReactNode
@@ -29,12 +30,12 @@ export const ShoppingCardContext  = createContext({} as shoppingCardContext);
 
 export function ShppingCardProvider({children} :  ShoppingCardProvider){
 
-    const [cardItems , setCardItems] = useState<cardItem[]>([])
+    const [cardItems , setCardItems] = useLocalStorage<cardItem[]>("cartItems" , [])
 
     const handleIncreaseProductQty = (id : number) => {
 
         setCardItems(currentItem => {
-            let selectedItem = currentItem.find(item => item.id == id)
+            let selectedItem = currentItem.find(item => item.id === id)
 
             if(selectedItem == null){
                 return [...currentItem , {id : id , qty : 1}]
@@ -55,7 +56,7 @@ export function ShppingCardProvider({children} :  ShoppingCardProvider){
     const handleDecreaseProductQty = (id : number) => {
 
         setCardItems(currentItem => {
-            let selectedItem = currentItem.find(item => item.id = id)
+            let selectedItem = currentItem.find(item => item.id === id)
 
             if(selectedItem?.qty === 1 ){
                 return currentItem.filter(item  => item.id !== id)

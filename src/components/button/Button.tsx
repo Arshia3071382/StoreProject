@@ -10,7 +10,7 @@ function Button({ children, variant, style, ...rest }: TButton) {
   return (
     <button
       {...rest}
-      className="px-4 py-1 w-full mt-10 rounded "
+      className="px-4 py-1  mt-10 rounded "
       style={{...style , ...CheckVariant(variant) }}
     >
       {children}

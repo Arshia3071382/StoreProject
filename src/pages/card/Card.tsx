@@ -8,11 +8,15 @@ function Card() {
   const {cardItems} = useShoppingCardContext() ;
   return (
     <div>
-      <CardItem />
-      <CardItem />
-      <CardItem />
-      <CardItem />
+      
       <Container>
+        <div>
+          {
+            cardItems.map(item => (
+              <CardItem {...item}/>
+            ))
+          }
+        </div>
         <div className="flex flex-col gap-4">
           <div className="bg-gray-200 rounded text-right flex justify-around py-3">
             <p>قیمت کل</p>
