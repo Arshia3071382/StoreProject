@@ -1,37 +1,54 @@
 
-import { Link } from 'react-router-dom'
-import Container from '../container/Container'
-import basketIcon from "./../../../public/image/shopping_cart_47dp_000000_FILL0_wght400_GRAD0_opsz48.png"
-import { ShoppingCardContext, useShoppingCardContext } from '../../context/ShoppingContext'
+import { Link, useNavigate } from "react-router-dom";
+import cartIcon from "../../../public/image/shopping_cart_47dp_000000_FILL0_wght400_GRAD0_opsz48.png";
+import { useShoppingCardContext } from "../../context/ShoppingContext";
 
-export default function 
-() {
+function Navbar() {
 
-  const {productQty} = useShoppingCardContext()
+  const{productQty} = useShoppingCardContext()
+  const navigate = useNavigate();
+  const userName = localStorage.getItem("userName");
+
+  const handleCartClick = () => {
+    if (!userName) {
+      alert("Please log in first🙏");
+      navigate("/"); 
+    } else {
+      navigate("/card");
+    }
+  };
+
   return (
-    <div className='border-b border-gray-300 shadow-2xl h-14 flex items-center  '>
-       <Container>
-         <div className='flex justify-between flex-row '>
-            <ul className='flex flex-row justify-between gap-4'>
-            <Link to={"/"}>
-              <li>Home</li>
-            </Link>
-            <Link to={"./store"}>
-              <li>Store</li>
-            </Link>
-        </ul>
+    <nav className="flex justify-between items-center px-10 py-4 shadow-md bg-white">
+      <Link to="/" className="text-2xl font-bold">
+        Store
+      </Link>
 
-        <div>
-          <Link className='relative' to={"./card"}>
-            <button>
-              <img className='w-7' src={basketIcon}  alt="basketIcon" />
-            </button>
-            <p className='absolute bg-red-600 px-2 rounded-2xl text-white -right-4 -top-5'>{productQty}</p>
-          </Link>
-        </div>
-         </div>
-       </Container>
-        
-    </div>
-  )
+      <div className="flex items-center gap-6">
+        <Link to="/store" className="hover:text-blue-600 transition">
+          Store
+        </Link>
+
+        <button
+          onClick={handleCartClick}
+          disabled={!userName}
+          className={`p-2 rounded-full transition ${
+            userName
+              ? "hover:bg-blue-100 cursor-pointer" 
+              : "opacity-50 cursor-not-allowed"
+          }`}
+        >
+          <img src={cartIcon} alt="cart" className="w-6 h-6" />
+          {userName && (
+            <div>
+              <p className='absolute bg-red-600 px-2 rounded-2xl text-white right-9 top-3'>{productQty}</p>
+            </div>
+          )}
+        </button>
+      </div>
+    </nav>
+  );
 }
+
+export default Navbar;
+
